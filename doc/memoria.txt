@@ -1,0 +1,122 @@
+*memoria.txt* functionality for the memoria vim plugin
+
+                 __  ___                          _
+                /  |/  /__  ____ ___  ____  _____(_)___ _
+               / /|_/ / _ \/ __ `__ \/ __ \/ ___/ / __ `/
+              / /  / /  __/ / / / / / /_/ / /  / / /_/ /
+             /_/  /_/\___/_/ /_/ /_/\____/_/  /_/\__,_/
+                                                   Vim
+
+          A time and memory management plugin for Vim users.
+                                          - Polarsky, 2019 -
+
+
+====================================================================
+CONTENTS                                         *memoriaContents*
+
+    1. Usage ................ |memoriaUsage|
+    2. Mappings ............. |memoriaMappings|
+    3. License .............. |memoriaLicense|
+    4. Credits .............. |memoriaCredits|
+
+====================================================================
+USAGE                                               *memoriaUsage*
+
+Welcome to the memoria plugin for Vim! There's no time so ...
+... here we go!
+
+Basic Syntax of *.ma memoria file:
+
+    Wednesday 1/9
+    # Comments look like this.
+    # [X] DONE: Get snacks
+    # [X] DONE: Eat snacks
+    # [X] DONE: Replenish snacks
+    # [_] TODO: Learn 2 Memoria
+    # [_] TODO: Work some development magic son
+
+    Snacks (chips (get)): 2.5 hours
+    Eat (snacks): .01 hours
+    Snacks (chips-soda (get)): 3.5 hours
+    vim-memoria : .25 hours
+    development (legit (work)): 1.5 hours
+
+    09:00-19:15 20:30-23:15 (13 hours)
+
+====================================================================
+MAPPINGS                                         *memoriaMappings*
+
+Globas:
+
+g:memoriaGranularityMin   Minute granularity for time calculations.
+                          Bound to minute range [1, 30] minutes.
+                          Default: 15 min
+g:memoriaEnableBindings   Enable(1)/Disable(0) memoria key bindings.
+                          Default: 1 ( Enabled )
+
+Bindings:
+
+o                  Typing 'o' in normal mode will bring cursor to
+                   begining of line bellow.
+
+<cr>               Hitting Enter/Return Key gets you back to the
+                   beginning of the line bellow.
+
+<c-a>              Normal mode, increment a time stamp or hour value
+                   by g:memoriaGranularityMin.
+
+<c-x>              Normal mode, decrement a time stamp or hour value
+                   by g:memoriaGranularityMin.
+
+maday              Insert mode abbreviation, will substitute 'maday'
+                   with current 'Weekday MM/DD'
+
+matime             Insert mode abbreviation, will substitute 'matime'
+                   with time stamp depending on set min granularity.
+
+manew              Insert mode abbreviation, will substitute 'manew'
+                   with new category entry:
+                      XXX (XXX (XXX)): XXX hours
+
+maupdate           Insert mode abbreviation, will substitute 'maupdate'
+                   with an updated sum of time stamps on time stamp
+                   line.
+
+matodo             Insert mode abbreviation, will substitute 'matodo'
+                   with check-list todo bullet:
+                      [_] TODO:
+
+madone             Insert mode abbreviation, will substitute 'madone'
+                   with check-list done bullet:
+                      [X] DONE:
+
+Ex-Commands:
+
+:Maday             Inserts 'Weekday M/D' to eol.
+:Matime            Inserts a time stamp  to eol.
+:Manew             Inserts a new category line to eol.
+:Maupdate          Updates hours in a time stamp line at eol.
+:Matodo            Changes any '[X] DONE:' strings with '[_] TODO:'
+:Madone            Changes any '[_] TODO:' strings with '[X] DONE:'
+:Maplus            Increment a time stamp or hour value at cursor.
+:Maminus           Decrement a time stamp or hour value at cursor.
+
+====================================================================
+LICENSE                                           *memoriaLicense*
+
+MIT License, for more informtion visit:
+
+    https://github.com/polarsky/vim-memoria
+
+====================================================================
+CREDITS                                           *memoriaCredits*
+
+The orginal idea behind the syntax for memoria goes to gthomsen on
+GitHub, whose passion for analyzing time far exceeds my own. As for
+myself, I just like to writing things for Vim and wanted to learn
+how to write Vim plugins. I recommend checking out gthomsen's
+time-allocations repository for more goodies regarding parsing the
+time allocation syntax for analysis (there's even an Emacs
+implementation for the closet-Emacs in all of us :O ).
+
+Repository: https://github.com/gthomsen/time-allocations

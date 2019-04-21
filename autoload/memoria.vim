@@ -159,6 +159,29 @@ function! s:IsTimeStamp( str )
   return !empty( match )
 endfunction
 
+" s:GetTimeStamp:
+"   in:  string
+"   out: empty string or time stamp string
+function! s:GetStrAtCursor( pat )
+  let c_pos  = col('.')
+  let line   = getline( '.' )
+  let offset = 5
+  let c_num  = 0
+  if ( c_pos < 5 )
+    let offset = c_pos
+    let c_num  = 0
+  else
+    let c_num = c_pos-offset
+  endif
+  let c_str = strpart( line, c_num, 9 )
+  let str   = matchstrpos( c_str, a:pat )
+  if ( !empty( str ) )
+    let str[1] = c_pos - offset + str[1]
+    let str[2] = c_pos - offset + str[2]
+  endif
+  return str
+endfunction
+
 "===========================================================
 " Functions: Time String Parsing
 "===========================================================
@@ -292,14 +315,29 @@ endfunction
 "   in:   1=add 0=sub, by g:memoriaGranularityMin
 function! memoria#IncrementTime( op )
   let l:save = winsaveview()
-  let str_cursor  = strpart( getline('.'), col('.')-5, 9 )
-  let stamp = matchstr( str_cursor , '\v[0-9][0-9]:[0-9][0-9]' )
-  let val   = matchstr( str_cursor , '\v([0-9]+([.][0-9]*)?|[.][0-9]+)' )
-  let symb  = matchstr( str_cursor , '-' )
-  let granu = s:GetGranularity()
+  let granu  = s:GetGranularity()
 
-  if ( !empty( stamp ) )
-    let str = split( stamp, ':' )
+  " check that there are valid number or stamp chars under cursor
+  let c_char = strcharpart( getline('.'), col('.')-1, 1 )
+  let check  = matchstrpos( c_char, '[0-9.:]' )
+  if ( empty( check[0] ) )
+    return ''
+  endif
+
+  let stamp  = s:GetStrAtCursor( '[0-9][0-9]:[0-9][0-9]' )
+  let val    = s:GetStrAtCursor( '\v[+-]?((\d+\.?\d*)|(\.\d+))' )
+
+  " prioretize time stamps over floats
+  if ( !s:IsTimeStamp( stamp[0] ) )
+    " only get floats for lines that are not time ranges.
+    let ranges = s:GetTimeStampRanges( getline( '.' ) )
+    if ( !empty( ranges ) )
+      return ''
+    endif
+  endif
+
+  if ( !empty( stamp[0] ) )
+    let str = split( stamp[0], ':' )
     let hr    = str[0]
     let min   = str[1]
 
@@ -329,12 +367,12 @@ function! memoria#IncrementTime( op )
       endif
     endif
 
-    let str = s:PrePad( hr, 2, '0' ) . ':' . s:PrePad( min, 2, '0' )
-    execute 's/' . stamp . '/' . str . '/e'
+    let str  = s:PrePad( hr, 2, '0' ) . ':' . s:PrePad( min, 2, '0' )
+    call s:ReplaceColInCurrLine( str, stamp[1], stamp[2] )
 
-  elseif ( !empty( val ) && empty( symb ) )
+  elseif ( !empty( val[0] ) )
     let str = ''
-    let res = str2float( val )
+    let res = str2float( val[0] )
     let inc = (granu*1.0)/60.0
 
     " Add granu option
@@ -348,8 +386,8 @@ function! memoria#IncrementTime( op )
       endif
     endif
 
-    let str = s:Float2Str( res )
-    execute 's/' . val . '/' . str . '/e'
+    let str  = s:Float2Str( res )
+    call s:ReplaceColInCurrLine( str, val[1], val[2] )
   endif
   call winrestview(l:save)
 endfunction
@@ -375,5 +413,18 @@ function! s:Float2Str( flt )
     return inte
   else
     return inte . '.' . frac
+  endif
+endfunction
+
+" s:ReplaceColInCurrLine:
+"   in:  string to replace
+"   in:  start column
+"   in:  end   column
+function! s:ReplaceColInCurrLine( str, start_col, end_col )
+  let del_len = a:end_col - a:start_col
+  if ( 0 == a:start_col )
+    execute 'normal! 0'.del_len.'x'.'i'.a:str."\<esc>"
+  else
+    execute 'normal! 0'.a:start_col.'l'.del_len.'x'.'i'.a:str."\<esc>"
   endif
 endfunction

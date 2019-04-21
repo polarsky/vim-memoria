@@ -33,12 +33,18 @@ command! Maminus  call memoria#IncrementTime( 0 )
 augroup memoria
   autocmd!
   autocmd Filetype memoria setlocal shiftwidth=4 softtabstop=0 tabstop=4 expandtab
-  autocmd Filetype memoria inoremap <buffer> <cr>  <cr><esc>0dwi
-  autocmd Filetype memoria nnoremap <buffer> o     o<esc>0Di
+  autocmd Filetype memoria inoremap <buffer>        <cr>  <cr><esc>0dwi
+  autocmd Filetype memoria nnoremap <buffer>        o     o<esc>0Di
 
   if ( 1 ==# g:memoriaEnableBindings )
-    autocmd Filetype memoria nnoremap <buffer> <silent> <c-a> :call memoria#IncrementTime(1)<cr>
-    autocmd Filetype memoria nnoremap <buffer> <silent> <c-x> :call memoria#IncrementTime(0)<cr>
+    autocmd Filetype memoria nnoremap <buffer> <silent> <c-y> :Maday<cr>
+    autocmd Filetype memoria nnoremap <buffer> <silent> <c-t> :Matime<cr>
+    autocmd Filetype memoria nnoremap <buffer> <silent> <c-n> :Manew<cr>
+    autocmd Filetype memoria nnoremap <buffer> <silent> <c-p> :Maupdate<cr>
+    autocmd Filetype memoria nnoremap <buffer> <silent> <c-o> :Matodo<cr>
+    autocmd Filetype memoria nnoremap <buffer> <silent> <c-e> :Madone<cr>
+    autocmd Filetype memoria nnoremap <buffer> <silent> <c-a> :Maplus<cr>
+    autocmd Filetype memoria nnoremap <buffer> <silent> <c-x> :Maminus<cr>
 
     autocmd Filetype memoria iabbrev  <buffer> maday    <c-r>=memoria#Day( 1 )<cr><c-r>=memoria#EatChar( '\s' )<cr>
     autocmd Filetype memoria iabbrev  <buffer> matime   <c-r>=memoria#Time( 1 )<cr><c-r>=memoria#EatChar( '\s' )<cr>

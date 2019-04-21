@@ -54,20 +54,23 @@ g:memoriaGranularityMin   Minute granularity for time calculations.
 g:memoriaEnableBindings   Enable(1)/Disable(0) memoria key bindings.
                           Default: 1 ( Enabled )
 
-Bindings:
-
+Bindings Normal Mode:
 o                  Typing 'o' in normal mode will bring cursor to
                    begining of line bellow.
 
 <cr>               Hitting Enter/Return Key gets you back to the
                    beginning of the line bellow.
 
-<c-a>              Normal mode, increment a time stamp or hour value
-                   by g:memoriaGranularityMin.
+<c-y>              Inserts 'Weekday MM/DD'
+<c-t>              Inserts new time stamp range.
+<c-n>              Inserts new empty category.
+<c-p>              Updates timestamp ranges
+<c-o>              Turns '[X] DONE:' comment into '[_] TODO:'.
+<c-e>              Turns '[_] TODO:' comment into '[X] DONE:'.
+<c-a>              Increment a time stamp by g:memoriaGranularityMin.
+<c-x>              Decrement a time stamp by g:memoriaGranularityMin.
 
-<c-x>              Normal mode, decrement a time stamp or hour value
-                   by g:memoriaGranularityMin.
-
+Bindings Insert Mode:
 maday              Insert mode abbreviation, will substitute 'maday'
                    with current 'Weekday MM/DD'
 
@@ -89,6 +92,7 @@ matodo             Insert mode abbreviation, will substitute 'matodo'
 madone             Insert mode abbreviation, will substitute 'madone'
                    with check-list done bullet:
                       [X] DONE:
+
 
 Ex-Commands:
 

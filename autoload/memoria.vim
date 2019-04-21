@@ -425,6 +425,10 @@ function! s:ReplaceColInCurrLine( str, start_col, end_col )
   if ( 0 == a:start_col )
     execute 'normal! 0'.del_len.'x'.'i'.a:str."\<esc>"
   else
-    execute 'normal! 0'.a:start_col.'l'.del_len.'x'.'i'.a:str."\<esc>"
+    if ( a:start_col + del_len ==# strlen( getline( '.' ) ) )
+      execute 'normal! 0'.a:start_col.'l'.del_len.'x'.'a'.a:str."\<esc>"
+    else
+      execute 'normal! 0'.a:start_col.'l'.del_len.'x'.'i'.a:str."\<esc>"
+    endif
   endif
 endfunction

@@ -43,3 +43,7 @@ git clone https://github.com/polarsky/vim-memoria.git
 
 Then open vim and run Pathogen's `:Helptags` command to
 generate tags for plugin documentation.
+
+# Screenshot
+
+![screenshot](https://raw.github.com/polarsky/vim-memoria/master/vim-memoria-ilr.png)

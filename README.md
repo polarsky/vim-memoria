@@ -46,4 +46,4 @@ generate tags for plugin documentation.
 
 # Screenshot
 
-![screenshot](https://raw.github.com/polarsky/vim-memoria/master/vim-memoria-ilr.png)
+![screenshot](https://github.com/polarsky/vim-memoria/blob/master/vim-memoria-irl.png)

@@ -3,13 +3,13 @@
 Welcome to the vim-memoria plugin!
 
 Keep track of your work and overall time with this companion tool.
-Quickly format time alloction files ( `*ma` ) that are compatible
+Quickly format time alloction files ( `*.ma` ) that are compatible
 with gthomsen's
-[time-allocations](https://github.com/gthomsen/time-allocations).
+[time-allocations](https://github.com/gthomsen/time-allocations)
 data analysis tool, which pulls out metrics about how much time
 you work on certain things and where your time is going.
 
-Here is an example of the ( `*ma` ) syntax:
+Here is an example of the ( `*.ma` ) syntax:
 
 ```
 Wednesday 1/9
